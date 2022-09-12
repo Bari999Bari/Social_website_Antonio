@@ -1,0 +1,268 @@
+<html><head>
+<link href="/bitrix/components/bitrix/photogallery.detail.list/templates/slide_show/style.css" type="text/css" rel="stylesheet" />
+<link href="/bitrix/templates/.default/ajax/ajax.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/bitrix/components/bitrix/photogallery.detail.list/templates/slide_show/script_player.js"></script>
+<script type="text/javascript" src="/bitrix/components/bitrix/photogallery/templates/.default/script.js"></script>
+<script type="text/javascript" src="/bitrix/js/main/ajax.js"></script>
+<script type="text/javascript" src="/bitrix/js/main/core/core.js"></script>
+<script type="text/javascript" src="/bitrix/js/main/utils.js"></script>
+<script language="JavaScript" type="text/javascript">
+function SetBackGround(div)
+{
+		if (!div){return false;}
+		document.body.style.backgroundColor = div.style.backgroundColor;
+}
+</script>
+<title>BMW</title>
+</head>
+<body class="photo-slide-show">
+<div class="image-upload" id="image-upload"></div>
+<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td align=right width="0">
+			<table align=center cellpadding=0 cellspacing=2 border=0>
+				<tr><td><div style="width:18px; height:18px; background-color:#FFFFFF;" onmouseover="SetBackGround(this);"></div></td></tr>
+				<tr><td><div style="width:18px; height:18px; background-color:#E5E5E5;" onmouseover="SetBackGround(this);"></div></td></tr>
+				<tr><td><div style="width:18px; height:18px; background-color:#CCCCCC;" onmouseover="SetBackGround(this);"></div></td></tr>
+				<tr><td><div style="width:18px; height:18px; background-color:#B3B3B3;" onmouseover="SetBackGround(this);"></div></td></tr>
+				<tr><td><div style="width:18px; height:18px; background-color:#999999;" onmouseover="SetBackGround(this);"></div></td></tr>
+				<tr><td><div style="width:18px; height:18px; background-color:#808080;" onmouseover="SetBackGround(this);"></div></td></tr>
+				<tr><td><div style="width:18px; height:18px; background-color:#666666;" onmouseover="SetBackGround(this);"></div></td></tr>
+				<tr><td><div style="width:18px; height:18px; background-color:#4D4D4D;" onmouseover="SetBackGround(this);"></div></td></tr>
+				<tr><td><div style="width:18px; height:18px; background-color:#333333;" onmouseover="SetBackGround(this);"></div></td></tr>
+				<tr><td><div style="width:18px; height:18px; background-color:#1A1A1A;" onmouseover="SetBackGround(this);"></div></td></tr>
+				<tr><td><div style="width:18px; height:18px; background-color:#000000;" onmouseover="SetBackGround(this);"></div></td></tr>
+			</table>
+		</td>
+		<td align="center" width="100%" valign="center" style="padding-top:5px;">
+			<div id="bx_slider_content_item_1"></div>
+		</td>
+	</tr>
+</table>
+
+<div id="control_container">
+	<div id="navigator_container" style="display:none;">
+		<table cellpadding="0" cellspacing="0" border="0" width="100%" class="photo-player-panel">
+			<tr valign="middle">
+				<td align="left" width="40%"><div id="title"></div></td>
+				<td align="center" width="20%">
+					<table cellpadding="0" cellspacing="0" border="0" class="photo-player-panel-buttons">
+						<tr>
+							<td><div class="photo-player-button" id="prev" onclick="if(player){player.step('prev');}"></div></td>
+							<td><div class="photo-player-button" id="play" onclick="if(player){player.PlayStop();}"></div></td>
+							<td><div class="photo-player-button" id="next" onclick="if(player){player.step('next');}"></div></td>
+						</tr>
+					</table>
+				</td>
+				<td align="center" width="15%"><span id="counter">1</span>  156 </td>
+				<td align="center" width="15%">
+					<table cellpadding="2" cellspacing="0" border="0" class="inner">
+						<tr>
+							<td><div class="photo-player-button" id="time_minus" onclick="if(player && player.params['period'] > 1){player.params['period']--;BX('time_container').innerHTML = player.params['period'] + '';}"></div></td>
+							<td><div id="time_container">2</div></td>
+							<td></td>
+							<td><div class="photo-player-button" id="time_plus" onclick="if(player){player.params['period']++;BX('time_container').innerHTML = player.params['period'] + '';}"></div></td>
+						</tr>
+					</table></td>
+				<td width="10%" valign="top" align="right"><div id="stop" class="photo-player-button"  onclick="if(player){player.stop();jsUtils.Redirect([], '/photo/206/');} "></div></td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<script>
+window.params = {'x' : 0, 'y' : 0};
+function GetWindowSize()
+{
+	var innerWidth, innerHeight;
+
+	if (self.innerHeight) // all except Explorer
+	{
+		innerWidth = self.innerWidth;
+		innerHeight = self.innerHeight;
+	}
+	else if (document.documentElement && document.documentElement.clientHeight) // Explorer 6 Strict Mode
+	{
+		innerWidth = document.documentElement.clientWidth;
+		innerHeight = document.documentElement.clientHeight;
+	}
+	else if (document.body) // other Explorers
+	{
+		innerWidth = document.body.clientWidth;
+		innerHeight = document.body.clientHeight;
+	}
+
+	var scrollLeft, scrollTop;
+	if (self.pageYOffset) // all except Explorer
+	{
+		scrollLeft = self.pageXOffset;
+		scrollTop = self.pageYOffset;
+	}
+	else if (document.documentElement && document.documentElement.scrollTop) // Explorer 6 Strict
+	{
+		scrollLeft = document.documentElement.scrollLeft;
+		scrollTop = document.documentElement.scrollTop;
+	}
+	else if (document.body) // all other Explorers
+	{
+		scrollLeft = document.body.scrollLeft;
+		scrollTop = document.body.scrollTop;
+	}
+
+	var scrollWidth, scrollHeight;
+
+	if ( (document.compatMode && document.compatMode == "CSS1Compat"))
+	{
+		scrollWidth = document.documentElement.scrollWidth;
+		scrollHeight = document.documentElement.scrollHeight;
+	}
+	else
+	{
+		if (document.body.scrollHeight > document.body.offsetHeight)
+			scrollHeight = document.body.scrollHeight;
+		else
+			scrollHeight = document.body.offsetHeight;
+
+		if (document.body.scrollWidth > document.body.offsetWidth ||
+			(document.compatMode && document.compatMode == "BackCompat") ||
+			(document.documentElement && !document.documentElement.clientWidth)
+		)
+			scrollWidth = document.body.scrollWidth;
+		else
+			scrollWidth = document.body.offsetWidth;
+	}
+
+	return  {"innerWidth" : innerWidth, "innerHeight" : innerHeight, "scrollLeft" : scrollLeft, "scrollTop" : scrollTop, "scrollWidth" : scrollWidth, "scrollHeight" : scrollHeight};
+}
+
+function Show()
+{
+	div = BX('navigator_container');
+	div.style.left = parseInt(document.body.scrollLeft + document.body.clientWidth/2 - 600/2) + "px";
+	div.style.display = "block";
+	var windowSize = GetWindowSize();
+
+	if (params['x'] != windowSize.innerWidth || params['y'] != windowSize.innerHeight)
+	{
+		params['x'] = windowSize.innerWidth; params['y'] = windowSize.innerHeight;
+		if (window.SlideSlider && window.SlideSlider != null)
+		{
+			window.SlideSlider.item_params = {'width' : (windowSize.innerWidth - 40), 'height' : (windowSize.innerHeight - 20)};
+			window.SlideSlider.ShowSlider();
+		}
+	}
+}
+
+function to_init(e)
+{
+	var is_loaded = false;
+	try {
+		is_loaded = (bPhotoPlayerLoad == true);
+	}
+	catch(e){}
+
+	if (is_loaded)
+	{
+		jsUtils.addEvent(window, "resize", Show);
+		Show();
+		// Source
+		BPCSourse.prototype.OnBeforeSendData = function()
+		{
+			BX('image-upload').style.display = 'block';
+			for (var ii = 0, jj = ['prev', 'next']; ii < 2; ii++)
+			{
+				var res = BX(jj[ii]);
+				if (res)
+				{
+					if (!res.__onclick) { res.__onclick = res.onclick; }
+					res.onclick = function() { return false; }
+				}
+			}
+		}
+		BPCSourse.prototype.OnAfterSendData = function()
+		{
+			BX('image-upload').style.display = 'none';
+			for (var ii = 0, jj = ['prev', 'next']; ii < 2; ii++)
+			{
+				var res = BX(jj[ii]);
+				if (res)
+				{
+					res.onclick = res.__onclick;
+				}
+			}
+		}
+
+		// Slider
+		BPCSlider1 = BPCSlider;
+		BPCSlider1.prototype.ShowItem = function(item_id, number)
+		{
+			var res = BX('bx_slider_content_item_' + number);
+			try
+			{
+				var oChildNodes = res.childNodes;
+				if (oChildNodes && oChildNodes.length > 0)
+				{
+					for (var jj = 0; jj < oChildNodes.length; jj++)
+						res.removeChild(oChildNodes[jj]);
+				}
+			}
+			catch(e) {}
+			res.appendChild(this.CreateItem(item_id));
+			BX('counter').innerHTML = item_id;
+			BX('title').innerHTML = this.oSource.Data[item_id]['title'];
+			return true;
+		}
+		BPCSlider1.prototype.OnBeforeItemShow = function(item_id, params)
+		{
+			params = (typeof params != "object" ? {} : params);
+			return (params['slideshow'] != true);
+		}
+		// Player
+		BPCPlayer1 = BPCPlayer;
+		BPCPlayer1.prototype.OnStopPlay = function()
+		{
+			if (BX('pause'))
+				BX('pause').id = 'play';
+		}
+		BPCPlayer1.prototype.OnStartPlay = function()
+		{
+			if (BX('play'))
+				BX('play').id = 'pause';
+		}
+
+		SlideSlider = new BPCSlider1(
+			[{'id':'1133','title':'Золотая БМВ М5 ','description':'','shows':'20373','url':'/photo/206/1133/','src':'/upload/iblock/87f/bmw_m5_new.jpg','width':'600','height':'381'},{'id':'1299','title':'BMW X6 тюнинг','description':'','shows':'14275','url':'/photo/206/1299/','src':'/upload/iblock/5af/bmw_x6_tuning.jpg','width':'600','height':'428'},{'id':'1131','title':'Золотая BMW M5','description':'','shows':'14063','url':'/photo/206/1131/','src':'/upload/iblock/c4a/bmw_m5_gold.jpg','width':'600','height':'400'},{'id':'3361','title':'тюнинг BMW 335','description':'','shows':'12528','url':'/photo/206/3361/','src':'/upload/iblock/6bc/bmw-335-tuning.jpg','width':'640','height':'427'},{'id':'12847','title':'черный BMW M5 (F10) в M-обвесе','description':'','shows':'12178','url':'/photo/206/12847/','src':'/upload/iblock/775/bmw-m5f.jpg','width':'910','height':'683'},{'id':'2590','title':'матовый БМВ М5','description':'','shows':'13161','url':'/photo/206/2590/','src':'/upload/iblock/8af/bmw-m5-matoviy-2.jpg','width':'550','height':'311'},{'id':'8838','title':'тюнинг красной BMW 5-серии','description':'','shows':'10308','url':'/photo/206/8838/','src':'/upload/iblock/fa1/BMW+5+series+530.jpg','width':'790','height':'594'},{'id':'3312','title':'БМВ М6 2011 модельного года','description':'','shows':'12788','url':'/photo/206/3312/','src':'/upload/iblock/9c8/bmw-m6-2011-2.jpg','width':'550','height':'440'},{'id':'2589','title':'Матовый BMW M5','description':'Спортивный седан BMW M5 обернут в матовую пленку','shows':'12467','url':'/photo/206/2589/','src':'/upload/iblock/6d0/bmw-m5-matoviy.jpg','width':'550','height':'327'},{'id':'2667','title':'тюнинг BMW Z4','description':'','shows':'7770','url':'/photo/206/2667/','src':'/upload/iblock/464/3D-Design-BMW-Z4.jpg','width':'550','height':'366'},{'id':'2255','title':'BMW 6 - тюнинг от ателье Hamann','description':'','shows':'9634','url':'/photo/206/2255/','src':'/upload/iblock/b78/bmw-6-tuning.jpeg','width':'800','height':'531'},{'id':'2695','title':'тюнинг BMW M3 E92 от фирмы Emotion Wheels','description':'','shows':'9828','url':'/photo/206/2695/','src':'/upload/iblock/79f/BMW-M3-E92-by-Emotion+Wheels.jpg','width':'550','height':'367'},{'id':'4947','title':'BMW M5 (F10) 2012 ','description':'','shows':'8538','url':'/photo/206/4947/','src':'/upload/iblock/0fb/2012+BMW+M5+Concept.jpg','width':'720','height':'401'},{'id':'1300','title':'Тюнингованный внедорожник-купе БМВ X6','description':'','shows':'12810','url':'/photo/206/1300/','src':'/upload/iblock/a54/bmw_x6_tuning_2.jpg','width':'600','height':'221'},{'id':'2331','title':'BMW 5-series GT tuning','description':'','shows':'9260','url':'/photo/206/2331/','src':'/upload/iblock/0db/bmw-5-series-gt-tuning.jpg','width':'550','height':'330'},{'id':'2710','title':'четырехдерное купе от BMW','description':'','shows':'7378','url':'/photo/206/2710/','src':'/upload/iblock/a98/BMW-Concept-Gran-Coupe-2.jpg','width':'600','height':'450'},{'id':'3562','title':'Alpina B5 2010','description':'','shows':'7262','url':'/photo/206/3562/','src':'/upload/iblock/4ba/alpina-b5.jpeg','width':'800','height':'600'},{'id':'5745','title':'черный BMW X5 на больших дисках R23','description':'','shows':'10334','url':'/photo/206/5745/','src':'/upload/iblock/7c4/black-bmwx5.jpg','width':'1920','height':'1440'},{'id':'1301','title':'BMW X6 белого цвета','description':'','shows':'16655','url':'/photo/206/1301/','src':'/upload/iblock/85e/bmw_x6_white.jpg','width':'600','height':'399'},{'id':'2333','title':'Тюнингованный БМВ 5-серии Гран Туризмо','description':'','shows':'9827','url':'/photo/206/2333/','src':'/upload/iblock/6cb/bmw-5-series-gt-tuning-3.jpg','width':'550','height':'330'},{'id':'980','title':'Тюнинг BMW 1 Coupe','description':'','shows':'8700','url':'/photo/206/980/','src':'/upload/iblock/e72/bmw+1-series+coupe.jpeg','width':'640','height':'461'},{'id':'1901','title':'тюнингованная БМВ 3-серии','description':'','shows':'9635','url':'/photo/206/1901/','src':'/upload/iblock/c6e/bmw-3-series-tuning.jpg','width':'550','height':'367'},{'id':'2774','title':'BMW M5 2011','description':'','shows':'8768','url':'/photo/206/2774/','src':'/upload/iblock/dde/2011-BMW-5er-M.jpg','width':'550','height':'298'},{'id':'3782','title':'рисунок BMW X6 M','description':'','shows':'9218','url':'/photo/206/3782/','src':'/upload/iblock/917/risunok-bmw-x6-m.jpg','width':'700','height':'525'},{'id':'4539','title':'AC Schnitzer Tension','description':'Этот автомобиль представляет собой суперзаряженный вариант купе BMW 6-Серии, который сделало ателье AC Schnitzer, находящееся в Германии. <br />\nПод капотом этого автомобиля находится 552 лошадиных силы. Максимальная скорость равна 325 км/ч. Разгон с нуля до сотни дается за 4,5 секунды. Внешность, как видите на фото, тоже передалана.','shows':'6332','url':'/photo/206/4539/','src':'/upload/iblock/06d/AC+Schnitzer+Tension.jpeg','width':'640','height':'480'},{'id':'4645','title':'фиолетовый BMW 6-Series','description':'','shows':'9426','url':'/photo/206/4645/','src':'/upload/iblock/dc6/bmw-6-phiolet.jpg','width':'700','height':'467'},{'id':'936','title':'Bmw 7 2008 года выпуска','description':'','shows':'7688','url':'/photo/206/936/','src':'/upload/iblock/71e/bmw+7.jpeg','width':'640','height':'480'},{'id':'986','title':'BMW M7','description':'','shows':'8393','url':'/photo/206/986/','src':'/upload/iblock/be9/bmw+m7.jpg','width':'550','height':'305'},{'id':'1150','title':'BMW Z8','description':'','shows':'7147','url':'/photo/206/1150/','src':'/upload/iblock/186/bmw_z8.jpg','width':'550','height':'413'},{'id':'2709','title':'BMW Gran Coupe','description':'','shows':'7441','url':'/photo/206/2709/','src':'/upload/iblock/2a9/BMW-Concept-Gran-Coupe.jpg','width':'550','height':'385'},{'id':'3154','title':'BMW M1 ','description':'Это реалистичное изображение нового купе БМВ М1, которые было сделано в фотошопе. Сам автомобиль выйдет в свет в 2011 году.','shows':'7452','url':'/photo/206/3154/','src':'/upload/iblock/7df/BMW-1-Series-M-Coupe.jpg','width':'550','height':'298'},{'id':'3950','title':'BMW X6M Lumma','description':'Перед вами на фото, тюнингованная версия кроссовера BMW X6 M, который подвергся изменениям в ателье TopCar и Lumma Design. Эти фирмы совместными усилиями доработали автомобиль, установив мускулистые бампера, расширители колесных арок, задний спойлер и большие колеса. Под капотом данного суперкроссовера расположился 650 лошадиных сил, что на 95 сил больше, чем у &quot;стоковой&quot; версии X6 M. Максимальная скорость авто составляет 312 км/ч.','shows':'9346','url':'/photo/206/3950/','src':'/upload/iblock/aae/bmw-x6m-lumma.jpg','width':'550','height':'412'},{'id':'24971','title':'черно-белый BMW M6 Hurricane от Prior-Design','description':'','shows':'10348','url':'/photo/206/24971/','src':'/upload/iblock/a1f/prior-design_bmw_m6_hurricane.jpg','width':'2048','height':'1536'},{'id':'8839','title':'тюнингованный бмв 5 ','description':'','shows':'9894','url':'/photo/206/8839/','src':'/upload/iblock/b5f/BMW+5+series+5302.jpg','width':'1707','height':'1280'},{'id':'2632','title':'BMW M3 купе 1988 года выпуска','description':'','shows':'8466','url':'/photo/206/2632/','src':'/upload/iblock/a44/BMW-M3-E30-1988.jpg','width':'550','height':'298'},{'id':'683','title':'Летящий по трэку  Bmw z4 ','description':'','shows':'6906','url':'/photo/206/683/','src':'/upload/iblock/4cb/z4_coupe_03.jpg','width':'550','height':'412'},{'id':'983','title':'Стильный внедорожник Bmw X6','description':'','shows':'7211','url':'/photo/206/983/','src':'/upload/iblock/2d2/bmw+x62.jpeg','width':'600','height':'450'},{'id':'1022','title':'BMW 1 серии 2010 года','description':'Замечательный цвет - коричневый лак','shows':'9412','url':'/photo/206/1022/','src':'/upload/iblock/82e/bmw+1+new.jpeg','width':'600','height':'450'},{'id':'1035','title':'BMW X1','description':'Новый БМВ Х1 достаточно привлекателен, чтобы составить конкуренцию таким маркам как&nbsp;&nbsp;Volkswagen Tiguan, Ford Kuga, Toyota RAV-4 и Honda CR-V','shows':'6960','url':'/photo/206/1035/','src':'/upload/iblock/7f3/bmw-x1-3.jpg','width':'550','height':'366'},{'id':'1132','title':'Тюнинг БМВ М5','description':'','shows':'11620','url':'/photo/206/1132/','src':'/upload/iblock/438/bmw_m5_tuning.jpg','width':'600','height':'400'},{'id':'1151','title':'БМВ Z8','description':'','shows':'7327','url':'/photo/206/1151/','src':'/upload/iblock/ba5/bmw_z8_2.jpg','width':'550','height':'413'},{'id':'2476','title':'тюнинг БМВ Z4 от Hamann','description':'','shows':'6814','url':'/photo/206/2476/','src':'/upload/iblock/ddb/Hamann-BMW-Z4-E89.jpg','width':'550','height':'366'},{'id':'2775','title':'белый БМВ 5-серии в M-пакете ','description':'','shows':'8013','url':'/photo/206/2775/','src':'/upload/iblock/bbe/2011-BMW-5er-M-2.JPG','width':'550','height':'366'},{'id':'2843','title':'BMW 3-Series розового цвета','description':'Этот уникальный розовый BMW 3-серии ездит в Бухаресте Румыния. ','shows':'9682','url':'/photo/206/2843/','src':'/upload/iblock/26c/BMW-3-Series-pink.jpg','width':'640','height':'346'},{'id':'3261','title':'БМВ X3 в М-пакете','description':'','shows':'7038','url':'/photo/206/3261/','src':'/upload/iblock/84d/bmw-x3-m-3.JPG','width':'550','height':'367'},{'id':'3311','title':'BMW M6 2011','description':'Данное фото нового БМВ М6 2011 сделано автолюбителем в фотошопе. Изображение получилось очень реалистичным, реальный M6 будет выглядет почти так как на фото.','shows':'10358','url':'/photo/206/3311/','src':'/upload/iblock/6e3/bmw-m6-2011.jpg','width':'550','height':'401'},{'id':'3871','title':'BMW 3-Серии тюнинг','description':'','shows':'8402','url':'/photo/206/3871/','src':'/upload/iblock/c69/bmw-3-series-tuning.jpg','width':'600','height':'285'},{'id':'6042','title':'белый BMW M3 седан','description':'','shows':'8967','url':'/photo/206/6042/','src':'/upload/iblock/134/bmw-m3sedan.jpg','width':'1892','height':'1420'},{'id':'25314','title':'BMW 6 Series Vossen','description':'','shows':'11295','url':'/photo/206/25314/','src':'/upload/iblock/2be/BMW_5+Series_tuning-vossen.jpg','width':'870','height':'580'},{'id':'3761','title':'пикап BMW 330i','description':'','shows':'6741','url':'/photo/206/3761/','src':'/upload/iblock/bf0/BMW-330i-Pickup-Truck.jpg','width':'645','height':'349'},{'id':'4649','title':'пикап BMW X5','description':'Это фотошоп, но прикольный&#41;','shows':'8053','url':'/photo/206/4649/','src':'/upload/iblock/ee6/bmw-x5pickap.jpg','width':'504','height':'378'},{'id':'3260','title':'BMW X3 M','description':'','shows':'7102','url':'/photo/206/3260/','src':'/upload/iblock/8cc/bmw-x3-m.JPG','width':'550','height':'367'},{'id':'1023','title':'BMW  1-серии в M-обвесе','description':'','shows':'6549','url':'/photo/206/1023/','src':'/upload/iblock/f23/bmw+1+new2.jpeg','width':'600','height':'450'},{'id':'1322','title':'Тюнинг BMW 135i Coupe','description':'','shows':'7934','url':'/photo/206/1322/','src':'/upload/iblock/4e8/bmw-135i-coupe-tuning.jpg','width':'600','height':'401'},{'id':'2705','title':'BMW M1','description':'','shows':'6647','url':'/photo/206/2705/','src':'/upload/iblock/d78/bmw-m1.jpg','width':'550','height':'367'},{'id':'682','title':'bmw z4 предыдущего поколения','description':'','shows':'7435','url':'/photo/206/682/','src':'/upload/iblock/7c4/z4_coupe_02.jpg','width':'550','height':'412'},{'id':'1298','title':'BMW 7 белого цвета','description':'','shows':'8103','url':'/photo/206/1298/','src':'/upload/iblock/cba/bmw_7.jpeg','width':'550','height':'412'},{'id':'2708','title':'Первый битый седан BMW 5-Серии 2010','description':'Самым первым человеком успевший разбить новый седан BMW 5-серии 2010 модельного года стал житель Франции. <br />\nЭто первая фотография разбитой новинки. ','shows':'9025','url':'/photo/206/2708/','src':'/upload/iblock/09b/2010-BMW-5-Series.jpg','width':'550','height':'298'},{'id':'684','title':'Bmw Z4 предыдущего поколения','description':'','shows':'7781','url':'/photo/206/684/','src':'/upload/iblock/c0a/z4_coupe_04.jpg','width':'1024','height':'768'},{'id':'982','title':'красный BMW X6','description':'','shows':'8283','url':'/photo/206/982/','src':'/upload/iblock/033/bmw+x6.jpeg','width':'600','height':'450'},{'id':'987','title':'Новый BMW M7','description':'','shows':'8020','url':'/photo/206/987/','src':'/upload/iblock/698/bmw+m7+3.jpg','width':'550','height':'305'},{'id':'1102','title':'БМВ 6-серии','description':'','shows':'6977','url':'/photo/206/1102/','src':'/upload/iblock/eb8/bmw_6.jpg','width':'550','height':'367'},{'id':'1103','title':'черный БМВ M6 кабриолет','description':'','shows':'8025','url':'/photo/206/1103/','src':'/upload/iblock/f9f/bmw_6_series.jpg','width':'550','height':'367'},{'id':'1104','title':'просто красивая картинка BMW M6','description':'','shows':'6531','url':'/photo/206/1104/','src':'/upload/iblock/084/bmw_6_series_new.jpg','width':'550','height':'367'},{'id':'1137','title':'БМВ 8 серии','description':'','shows':'8024','url':'/photo/206/1137/','src':'/upload/iblock/c05/bmw_8_series.jpg','width':'600','height':'400'},{'id':'1326','title':'BMW 1 Coupe','description':'Модный белый цвет, установлен аэродинамический обвес, и черные легкосплавные диски.','shows':'6637','url':'/photo/206/1326/','src':'/upload/iblock/5da/bmw_1_coupe_2.jpg','width':'500','height':'334'},{'id':'2478','title':'тюнингованный BMW Z4','description':'','shows':'6637','url':'/photo/206/2478/','src':'/upload/iblock/512/Hamann-BMW-Z4-E89-4.jpg','width':'550','height':'366'},{'id':'2572','title':'Новый BMW M5 2011','description':'','shows':'8040','url':'/photo/206/2572/','src':'/upload/iblock/eca/BMW-M5-2011.jpg','width':'550','height':'298'},{'id':'2706','title':'новый БМВ M1 на трассе Нюрбургринг','description':'','shows':'6626','url':'/photo/206/2706/','src':'/upload/iblock/902/bmw-m1-2.jpg','width':'1280','height':'853'},{'id':'3810','title':'БМВ 6-серии 2011 ','description':'','shows':'7836','url':'/photo/206/3810/','src':'/upload/iblock/0a1/2012+BMW+6-series+Cabrio-2.jpeg','width':'700','height':'467'},{'id':'4632','title':'Белый БМВ X1 в М-пакете','description':'','shows':'7332','url':'/photo/206/4632/','src':'/upload/iblock/a10/bmw-x1-m-package-2.jpg','width':'700','height':'443'},{'id':'4740','title':'G-POWER X6 M TYPHOON S','description':'','shows':'6685','url':'/photo/206/4740/','src':'/upload/iblock/3b2/G-POWER+X6+M+TYPHOON+S.jpg','width':'1600','height':'1067'},{'id':'4742','title':'тюнингованный BMW X6 M - вид сбоку','description':'','shows':'7561','url':'/photo/206/4742/','src':'/upload/iblock/861/G-POWER+X6+M+TYPHOON+S-3.jpg','width':'1600','height':'1067'},{'id':'8275','title':'изображение двигателя BMW M5 F10','description':'О том сколько лошадиных сил в этом моторе и что он может, читайте тут - <a class=\"txttohtmllink\" href=\"https://carsweek.ru/news/world_news/8273/\">https://carsweek.ru/news/world_news/8273/<\/a>&nbsp;&nbsp;','shows':'6963','url':'/photo/206/8275/','src':'/upload/iblock/dfe/2012-BMW-M5-Sedan-247.JPG','width':'1600','height':'1067'},{'id':'21565','title':'BMW M6 MotoGP Safety Car','description':'','shows':'6316','url':'/photo/206/21565/','src':'/upload/iblock/fd9/m6-safetycar.jpg','width':'660','height':'494'},{'id':'2711','title':'БМВ Гран Купе','description':'','shows':'8478','url':'/photo/206/2711/','src':'/upload/iblock/daf/BMW-Concept-Gran-Coupe-3.jpg','width':'600','height':'420'},{'id':'3970','title':'белый BMW 1-серии','description':'','shows':'8442','url':'/photo/206/3970/','src':'/upload/iblock/3be/white-bmw-1-series.jpg','width':'640','height':'480'},{'id':'1105','title':'тюнинг БМВ М3','description':'','shows':'10135','url':'/photo/206/1105/','src':'/upload/iblock/e0c/bmw_m3_tuning.jpg','width':'550','height':'367'},{'id':'1900','title':'тюнинг BMW 3-серии','description':'','shows':'8217','url':'/photo/206/1900/','src':'/upload/iblock/b9d/bmw-3-series-tuning-2.jpg','width':'550','height':'367'},{'id':'2332','title':'тюнинг БМВ 5-серии Гран Туризмо','description':'','shows':'8701','url':'/photo/206/2332/','src':'/upload/iblock/fbb/bmw-5-series-gt-tuning-2.jpg','width':'550','height':'330'},{'id':'2474','title':'тюнинг BMW Z4','description':'','shows':'6551','url':'/photo/206/2474/','src':'/upload/iblock/e10/Hamann-BMW-Z4-E89.jpg','width':'550','height':'366'},{'id':'18227','title':'BMW X1 в M-обвесе','description':'','shows':'6543','url':'/photo/206/18227/','src':'/upload/iblock/84c/BMW+X1+M.jpg','width':'480','height':'309'},{'id':'24769','title':'черный матовый BMW M5 (F10)','description':'','shows':'7445','url':'/photo/206/24769/','src':'/upload/iblock/0f2/bmw_m5_individual_2.jpg','width':'2048','height':'1536'},{'id':'4727','title':'BMW 1-series M Safety Car','description':'','shows':'6256','url':'/photo/206/4727/','src':'/upload/iblock/51b/bmw-1-series-m-safety-car.jpeg','width':'800','height':'600'},{'id':'9176','title':'BMW M5 Dark Edition','description':'','shows':'7066','url':'/photo/206/9176/','src':'/upload/iblock/47b/BMW-M5-Dark-Edition.jpg','width':'645','height':'349'},{'id':'981','title':'Bmw 1','description':'','shows':'6717','url':'/photo/206/981/','src':'/upload/iblock/cfe/bmw+1-series.jpeg','width':'640','height':'480'},{'id':'988','title':'M7','description':'','shows':'6589','url':'/photo/206/988/','src':'/upload/iblock/aa6/bmw+m7+2.jpg','width':'550','height':'305'},{'id':'1036','title':'новый BMW X1','description':'','shows':'6358','url':'/photo/206/1036/','src':'/upload/iblock/3ba/bmw-x1-4.jpg','width':'550','height':'366'},{'id':'1152','title':'BMW Z8','description':'','shows':'6767','url':'/photo/206/1152/','src':'/upload/iblock/ba2/bmw_z8_3.jpg','width':'550','height':'413'},{'id':'1214','title':'золотистый BMW 7-series','description':'','shows':'7564','url':'/photo/206/1214/','src':'/upload/iblock/011/bmw_7series_sedan_03.jpg','width':'650','height':'488'},{'id':'1323','title':'Тюнинг БМВ 1-ой серии купе','description':'','shows':'7894','url':'/photo/206/1323/','src':'/upload/iblock/328/bmw-135i-coupe-tuning-2.jpg','width':'600','height':'401'},{'id':'1325','title':'Белый BMW 1 Coupe','description':'','shows':'6724','url':'/photo/206/1325/','src':'/upload/iblock/fc6/bmw_1_coupe.jpg','width':'500','height':'334'},{'id':'1329','title':'Красный красивый BMW','description':'','shows':'8469','url':'/photo/206/1329/','src':'/upload/iblock/c5c/bmw_1_coupe_old.jpg','width':'500','height':'335'},{'id':'2633','title':'старый BMW M3','description':'','shows':'8013','url':'/photo/206/2633/','src':'/upload/iblock/974/BMW-M3-E30-1988-2.JPG','width':'550','height':'367'},{'id':'2799','title':'второе поколение кроссовера BMW X3','description':'','shows':'6332','url':'/photo/206/2799/','src':'/upload/iblock/263/bmw-x3-2011.jpg','width':'550','height':'395'},{'id':'3586','title':'полицейский BMW','description':'новый седан bmw 330d выпущенный специально для полицейских в Англии.','shows':'6678','url':'/photo/206/3586/','src':'/upload/iblock/ec9/BMW-330d-police.jpg','width':'640','height':'406'},{'id':'3762','title':'пикап на основе BMW 330i','description':'','shows':'7344','url':'/photo/206/3762/','src':'/upload/iblock/62d/BMW-330i-Pickup-Truck-2.jpg','width':'700','height':'467'},{'id':'3809','title':'BMW 6-series Cabrio 2011','description':'','shows':'6670','url':'/photo/206/3809/','src':'/upload/iblock/8af/2012+BMW+6-series+Cabrio.jpeg','width':'700','height':'467'},{'id':'3811','title':'новый кабриолет БМВ 6-Серии ','description':'','shows':'6552','url':'/photo/206/3811/','src':'/upload/iblock/148/2012+BMW+6-series+Cabrio-3.jpeg','width':'700','height':'467'},{'id':'4540','title':'AC Schnitzer Tension - вид сзади','description':'','shows':'6273','url':'/photo/206/4540/','src':'/upload/iblock/f69/AC+Schnitzer+Tension-2.jpeg','width':'640','height':'480'},{'id':'4629','title':'BMW 1 series M Coupe Alpine White','description':'','shows':'6941','url':'/photo/206/4629/','src':'/upload/iblock/692/1+series+M+Coupe+Alpine+White.jpg','width':'1100','height':'696'},{'id':'4630','title':'БМВ 1-Серии М белого цвета','description':'','shows':'6527','url':'/photo/206/4630/','src':'/upload/iblock/dfe/1+series+M+Coupe+Alpine+White-2.jpg','width':'1100','height':'694'},{'id':'4631','title':'BMW X1 xDrive28i M-sport Package','description':'','shows':'6773','url':'/photo/206/4631/','src':'/upload/iblock/ca3/bmw-x1-m-package.jpg','width':'700','height':'442'},{'id':'4633','title':'BMW X1 xDrive28i M-sport в Женеве','description':'','shows':'6136','url':'/photo/206/4633/','src':'/upload/iblock/e3b/bmw-x1-m-package-3.jpg','width':'700','height':'442'},{'id':'4634','title':'BMW X3 M-sport Package','description':'','shows':'7693','url':'/photo/206/4634/','src':'/upload/iblock/6ff/X3+M-sport+Package+30d.jpg','width':'700','height':'443'},{'id':'4635','title':'БМВ X3 в M-обвесе и дисках','description':'','shows':'6475','url':'/photo/206/4635/','src':'/upload/iblock/143/X3+M-sport+Package+30d-2.jpg','width':'700','height':'442'},{'id':'4636','title':'дизельный BMW X3 xDrive30d M-sport','description':'','shows':'6125','url':'/photo/206/4636/','src':'/upload/iblock/211/X3+M-sport+Package+30d-3.jpg','width':'700','height':'443'},{'id':'4646','title':'BMW M3 E92 Competition','description':'новое купе БМВ М3 в Женеве предстало не в совсем обычном облике. Кузов получил новый окрас - ярко-красный и карбоновые зеркала заднего вида, передний сплиттер, крышу и задний небольшой спойлер! просто класс!!!!','shows':'6138','url':'/photo/206/4646/','src':'/upload/iblock/b29/BMW-M3-e92-competition.jpg','width':'700','height':'452'},{'id':'4741','title':'BMW X6 M тюнинг от G-Power','description':'','shows':'6942','url':'/photo/206/4741/','src':'/upload/iblock/fd8/G-POWER+X6+M+TYPHOON+S-2.jpg','width':'1280','height':'853'},{'id':'4749','title':'BMW 7-Series Mansory','description':'','shows':'6662','url':'/photo/206/4749/','src':'/upload/iblock/c36/BMW-7-Series-mansory.jpg','width':'645','height':'349'},{'id':'4750','title':'BMW 6-Series F13 Hamann','description':'','shows':'6943','url':'/photo/206/4750/','src':'/upload/iblock/c29/BMW-6-Series-f13-hamann.JPG','width':'798','height':'532'},{'id':'4907','title':'BMW M3 pickup','description':'','shows':'6243','url':'/photo/206/4907/','src':'/upload/iblock/da6/BMW-M3-pickup.jpeg','width':'800','height':'600'},{'id':'4908','title':'БМВ М3 Пикап','description':'','shows':'6773','url':'/photo/206/4908/','src':'/upload/iblock/ed4/BMW-M3-pickup-2.jpeg','width':'800','height':'600'},{'id':'7946','title':'БМВ первой серии 2012','description':'','shows':'5935','url':'/photo/206/7946/','src':'/upload/iblock/b0f/2012+BMW+1-Series2.JPG','width':'1600','height':'1067'},{'id':'8272','title':'БМВ M5 F10 2011','description':'','shows':'6995','url':'/photo/206/8272/','src':'/upload/iblock/2bb/2012-BMW-M5-Sedan-215.JPG','width':'1600','height':'1067'},{'id':'8274','title':'новая bmw m5 2012 - вид сзади','description':'','shows':'6672','url':'/photo/206/8274/','src':'/upload/iblock/413/2012-BMW-M5-Sedan-126.JPG','width':'1600','height':'1067'},{'id':'18990','title':'BMW X3 Hartge','description':'','shows':'5987','url':'/photo/206/18990/','src':'/upload/iblock/767/BMW-Hartge-X3-35d.jpg','width':'645','height':'349'},{'id':'20881','title':'BMW M5 Widebody Race Edition Hamann','description':'','shows':'5907','url':'/photo/206/20881/','src':'/upload/iblock/897/Hamann-BMW_M5_Widebody_Race_Edition_2006_1.jpg','width':'1024','height':'768'},{'id':'21367','title':'BMW M5 F10 Monte Carlo Blau metallic','description':'','shows':'6783','url':'/photo/206/21367/','src':'/upload/iblock/1dd/BMW-M5_2012_1024x768.jpg','width':'1024','height':'768'},{'id':'24946','title':'черный BMW M6 E60 - тюнинг от Currency Motors','description':'','shows':'6438','url':'/photo/206/24946/','src':'/upload/iblock/4b9/currency_motors_bmw_m5_1.jpg','width':'1600','height':'1200'},{'id':'8336','title':'BMW 1-серии купе 2012','description':'','shows':'7696','url':'/photo/206/8336/','src':'/upload/iblock/229/coupe3door.jpg','width':'645','height':'349'},{'id':'2475','title':'BMW Z4 от Hamann Motorsport','description':'','shows':'6659','url':'/photo/206/2475/','src':'/upload/iblock/269/Hamann-BMW-Z4-E89-3.jpg','width':'550','height':'366'},{'id':'7945','title':'BMW 1  Серии 2011','description':'','shows':'6777','url':'/photo/206/7945/','src':'/upload/iblock/195/2012+BMW+1-Series.jpg','width':'645','height':'349'},{'id':'937','title':'Bmw 7 нового поколения','description':'','shows':'7112','url':'/photo/206/937/','src':'/upload/iblock/a69/bmw+7+2.jpeg','width':'640','height':'480'},{'id':'681','title':'Bmw Z4 - вид спереди','description':'Захватывает дух ','shows':'9048','url':'/photo/206/681/','src':'/upload/iblock/baf/z4_coupe_01.jpg','width':'550','height':'412'},{'id':'1324','title':'BMW 135i Coupe','description':'','shows':'6711','url':'/photo/206/1324/','src':'/upload/iblock/f43/bmw-135i-coupe-tuning-3.jpg','width':'600','height':'401'},{'id':'2800','title':'BMW X3 2011 модельного года','description':'','shows':'7026','url':'/photo/206/2800/','src':'/upload/iblock/0a0/bmw-x3-2011-2.jpg','width':'550','height':'395'},{'id':'2801','title':'новый БМВ X3 ','description':'','shows':'6203','url':'/photo/206/2801/','src':'/upload/iblock/463/bmw-x3-2011-3.jpg','width':'550','height':'395'},{'id':'2844','title':'розовая BMW 3-серии','description':'','shows':'8728','url':'/photo/206/2844/','src':'/upload/iblock/2ec/BMW-3-Series-pink-2.jpg','width':'640','height':'427'},{'id':'17907','title':'BMW M135i','description':'','shows':'6272','url':'/photo/206/17907/','src':'/upload/iblock/3c6/BMW+M135i.jpg','width':'645','height':'349'},{'id':'18226','title':'BMW X1 на дисках и в обвесе AC Schnitzer','description':'','shows':'6296','url':'/photo/206/18226/','src':'/upload/iblock/b90/bmw-x1-ac-shnitzer.jpg','width':'1600','height':'938'},{'id':'20880','title':'Hamann BMW M5 Widebody Race Edition','description':'','shows':'5962','url':'/photo/206/20880/','src':'/upload/iblock/bc6/Hamann-BMW_M5_Widebody_Race_Edition.jpg','width':'1024','height':'768'},{'id':'21365','title':'BMW 650i Convertible 2012','description':'','shows':'5946','url':'/photo/206/21365/','src':'/upload/iblock/91f/BMW-650i_Convertible_2012.jpg','width':'1024','height':'768'},{'id':'21366','title':'BMW M135i 2013 Blue','description':'','shows':'6100','url':'/photo/206/21366/','src':'/upload/iblock/f57/BMW-M135i_2013.jpg','width':'1024','height':'768'},{'id':'24222','title':'BMW 3er Stance','description':'','shows':'6465','url':'/photo/206/24222/','src':'/upload/iblock/312/bmw-3er-tuning-stance.jpg','width':'800','height':'533'},{'id':'24846','title':'BMW 320 Coupe 1975 года (E21)','description':'','shows':'5977','url':'/photo/206/24846/','src':'/upload/iblock/ac3/bmw_320_coupe_7.jpg','width':'1024','height':'768'},{'id':'24852','title':'BMW M3 Cabrio E46 2001','description':'','shows':'5750','url':'/photo/206/24852/','src':'/upload/iblock/bdb/bmw_m3_cabrio_2001.jpg','width':'1600','height':'1200'},{'id':'24943','title':'BMW 5 Series E34 1988 - тюнинг от Zender','description':'','shows':'6462','url':'/photo/206/24943/','src':'/upload/iblock/fc2/zender_bmw_5_series_sedan.jpg','width':'1024','height':'768'},{'id':'24944','title':'G-Power M5 Hurricane RRs 2012','description':'','shows':'5650','url':'/photo/206/24944/','src':'/upload/iblock/e16/g-power_m5_hurricane_rrs.jpg','width':'2048','height':'1536'},{'id':'24945','title':'G-Power M5 Hurricane GS','description':'','shows':'5821','url':'/photo/206/24945/','src':'/upload/iblock/b06/g-power_hurricane_gs_5.jpg','width':'2048','height':'1536'},{'id':'24958','title':'BMW M6 и девушка на ММАС 2012','description':'','shows':'7126','url':'/photo/206/24958/','src':'/upload/iblock/baa/2012-Moscow-Cars-61.jpg','width':'1600','height':'1067'},{'id':'24967','title':'BMW M6 Cabrio F13','description':'очень красивый и быстрый автомобиль. Под капотом расположен 560-сильный битурбированный двигатель, работающий в паре с семиступенчатой роботизированной коробкой передач','shows':'5760','url':'/photo/206/24967/','src':'/upload/iblock/6b7/bmw_m6_cabrio_2012.jpg','width':'2048','height':'1536'},{'id':'24969','title':'BMW M5 1984 года и BMW M5 2012 года','description':'','shows':'5973','url':'/photo/206/24969/','src':'/upload/iblock/a0c/bmw_m5_1.jpg','width':'1280','height':'960'},{'id':'24970','title':'Lumma CLR 500 RS','description':'','shows':'5904','url':'/photo/206/24970/','src':'/upload/iblock/2a1/lumma_clr_500_rs_4.jpg','width':'2048','height':'1536'},{'id':'39717','title':'BMW 4-Series','description':'','shows':'10106','url':'/photo/206/39717/','src':'/upload/iblock/814/bmw4er.jpg','width':'920','height':'520'},{'id':'24960','title':'двигатель BMW M5 F10','description':'Бензиновый двигатель V8 объемом 4,4 литра, с двумя турбинами. Мощность - 560 лошадиных сил. ','shows':'6349','url':'/photo/206/24960/','src':'/upload/iblock/44e/_bmw_m5_sedan_f10-dvigatel.jpg','width':'2048','height':'1536'},{'id':'18760','title':'BMW 1-Series F20 Тюнинг от Hartge','description':'Ателье Hartge поработало над новой &quot;копейкой&quot; от BMW. Тюнеры снабдили машину стильными дисками R19 и установили спортивную подвеску, которая слегка уменьшила дорожный просвет.<br />\nПомимо этого, тюнинг-мастера повысили мощность двухлитрового турбодизеля со 116 до 142 сил.','shows':'6879','url':'/photo/206/18760/','src':'/upload/iblock/470/bmw-1-f20-tuning-.jpg','width':'920','height':'520'},{'id':'20887','title':'Hamann BMW 5-Series GT','description':'','shows':'6127','url':'/photo/206/20887/','src':'/upload/iblock/a34/Hamann-BMW_5-Series_GT_2010.jpg','width':'1024','height':'768'},{'id':'23872','title':'IND BMW M3 Sedan &quot;Silverstone&quot;','description':'','shows':'5888','url':'/photo/206/23872/','src':'/upload/iblock/17e/ind_bmw_m3_sedan_silverstone.jpg','width':'2048','height':'1536'},{'id':'24847','title':'BMW M3 Cabrio 2008','description':'','shows':'5563','url':'/photo/206/24847/','src':'/upload/iblock/fac/bmw_m3_cabrio_uk-spe.jpg','width':'1024','height':'768'},{'id':'24848','title':'BMW 320d xDrive 2008','description':'Просто красивое зимнее фото.','shows':'5845','url':'/photo/206/24848/','src':'/upload/iblock/267/bmw_320d_xdrive_sedan.jpg','width':'1024','height':'768'},{'id':'24849','title':'черный BMW 335i Coupe 2008','description':'Автомобиль для реальных парней&#41;','shows':'7193','url':'/photo/206/24849/','src':'/upload/iblock/5c9/bmw_335i_coupe_black.jpg','width':'1024','height':'768'},{'id':'24850','title':'белый BMW M3 Coupe E92','description':'','shows':'6392','url':'/photo/206/24850/','src':'/upload/iblock/4b2/bmw_m3_coupe_white.jpg','width':'2048','height':'1536'},{'id':'24851','title':'BMW 320d в обвесе M Sports Package','description':'','shows':'5900','url':'/photo/206/24851/','src':'/upload/iblock/4fa/bmw_320d_touring_m_sports_package_.jpg','width':'1024','height':'768'},{'id':'24952','title':'красный BMW 5 Серии Hamann','description':'','shows':'6822','url':'/photo/206/24952/','src':'/upload/iblock/bf2/hamann_bmw_m5_4.jpg','width':'1600','height':'1200'},{'id':'24966','title':'BMW M6 2006','description':'','shows':'5981','url':'/photo/206/24966/','src':'/upload/iblock/ca3/bmw_m6_us-spec_2006.jpg','width':'2048','height':'1536'}], // array of elements
+			12847, // active element
+			156, // count elements
+			1 // number element in set
+		);
+		var windowSize = GetWindowSize();
+		SlideSlider.item_params = {'width' : (windowSize.innerWidth - 40), 'height' : (windowSize.innerHeight - 20)};
+		SlideSlider.ShowSlider();
+		player = new BPCPlayer1(SlideSlider);
+		if (player)
+		{
+			player.params = {
+				period : 2,
+				status : 'paused'
+			};
+					}
+		else
+		{
+			var str = '';
+			BX("bx_slider_content_item_1").innerHTML = '<div class="error">' + str.replace("#HREF#", window.location.href) + '</div>';
+		}
+	}
+	else
+	{
+		setTimeout(to_init, 100);
+	}
+}
+if (window.attachEvent)
+	window.attachEvent("onload", to_init);
+else if (window.addEventListener)
+	window.addEventListener("load", to_init, false);
+else
+	setTimeout(to_init, 100);
+</script>
+</body></html>
