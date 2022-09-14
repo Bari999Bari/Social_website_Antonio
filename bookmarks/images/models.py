@@ -10,7 +10,7 @@ class Image(models.Model):
                              on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200,
-                            unique=True)
+                            blank=True)
     url = models.URLField()
     image = models.ImageField(upload_to='images/%Y/%m/%d/')
     description = models.TextField(blank=True)
@@ -19,10 +19,19 @@ class Image(models.Model):
     users_like = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                         related_name='images_liked',
                                         blank=True)
+    total_likes = models.PositiveIntegerField(db_index=True,
+                                              default=0)
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            # слагифай по умолчанию не работает с кирилицей
+            # и при определнной комбинации симолов может выдавать
+            # пустую строку, это нужно избежать потому, что
+            # с помощью слага формируются url
+            sl = slugify(self.title)
+            if sl == '':
+                sl = 'empty_slug'
+            self.slug = sl
         super().save(*args, **kwargs)
 
     def __str__(self):
